@@ -278,8 +278,8 @@ class PrestaShopWebService(object):
             headers, body = self.encode_multipart_formdata(files)
             return self._parse(self._execute(url, 'POST', body=body, add_headers=headers)[2])
         elif xml is not None:
-            headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-            return self._parse(self._execute(url, 'POST', body=urllib.urlencode({'xml': xml}), add_headers=headers)[2])
+            # As of PS 1.6.1.0, POST body is bare XML, even without percent encoding
+            return self._parse(self._execute(url, 'POST', body=xml)[2])
         else:
             raise PrestaShopWebServiceError('Undefined data.')
 
